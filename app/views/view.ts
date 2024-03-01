@@ -4,15 +4,22 @@
 export abstract class View<T> {
   // Só a própria classe ou as filhas que herdarem dessa classe podem ter acessa às propriedades protegidas
   protected elemento: HTMLElement;
+  private escapar = false;
 
   // Recebendo no seletor o ID do elemento
-  constructor(seletor: string) {
+  constructor(seletor: string, escapar?: boolean) {
     this.elemento = document.querySelector(seletor);
+    if(escapar) {
+      this.escapar = escapar;
+    }
   }
 
   // Chamando o update do modelo e também o template para adicionar no HTML
   public update(model: T): void {
-    const template = this.template(model);
+    let template = this.template(model);
+    if(this.escapar) {
+      template = template.replace(/<script>[\s\S]*?<\/script>/, '');
+    }
     this.elemento.innerHTML = template;
   }
 

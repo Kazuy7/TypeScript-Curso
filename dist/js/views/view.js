@@ -2,12 +2,19 @@
 // Essa view é feita com métodos para reutilizar, porém, alguns parâmetros são definidos na classe filha
 export class View {
     // Recebendo no seletor o ID do elemento
-    constructor(seletor) {
+    constructor(seletor, escapar) {
+        this.escapar = false;
         this.elemento = document.querySelector(seletor);
+        if (escapar) {
+            this.escapar = escapar;
+        }
     }
     // Chamando o update do modelo e também o template para adicionar no HTML
     update(model) {
-        const template = this.template(model);
+        let template = this.template(model);
+        if (this.escapar) {
+            template = template.replace(/<script>[\s\S]*?<\/script>/, '');
+        }
         this.elemento.innerHTML = template;
     }
 }
