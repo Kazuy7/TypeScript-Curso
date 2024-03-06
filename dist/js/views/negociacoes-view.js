@@ -1,7 +1,5 @@
 import { View } from "./view.js";
-// Tipo definido no extends
 export class NegociacoesView extends View {
-    // É necessário usar o protected aqui também para que o template protected não seja sobrescrito pelo template public
     template(model) {
         return `
         <table class="table table-hoover table-bordered text-white">
@@ -30,7 +28,6 @@ export class NegociacoesView extends View {
         </table>
         `;
     }
-    // Método privado para que só possa ser acessado pela própria classe
     formatar(data) {
         return new Intl.DateTimeFormat().format(data);
     }
